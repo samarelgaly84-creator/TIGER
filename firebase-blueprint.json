@@ -1,0 +1,250 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated Tiger Connect user profile, AI quota, engagement stats, and preferences.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the owner" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "username": { "type": "string", "description": "Unique handle" },
+        "email": { "type": "string", "description": "User email address (owner/admin only)" },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "Account role" },
+        "planTier": { "type": "string", "enum": ["FREE", "PLUS", "PRO"], "description": "Subscription tier" },
+        "xp": { "type": "integer", "description": "Engagement XP total" },
+        "coins": { "type": "integer", "description": "Virtual coins balance" },
+        "monthlyAiUsed": { "type": "integer", "description": "AI messages consumed in current 30-day cycle" },
+        "monthlyAiLimit": { "type": "integer", "description": "Monthly AI message allowance" },
+        "cycleNumber": { "type": "integer", "description": "Current 30-day billing cycle index" },
+        "celebrationSeenCycle": { "type": "integer", "description": "Last cycle index where user dismissed celebration" },
+        "avatarConfigJson": { "type": "string", "description": "Serialized Bitmoji avatar studio attributes" },
+        "e2eePublicJwk": { "type": "string", "description": "Exported ECDH P-256 public key JWK string" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp" }
+      },
+      "required": ["userId", "displayName", "username", "role", "planTier", "xp", "coins", "monthlyAiUsed", "monthlyAiLimit", "cycleNumber", "celebrationSeenCycle", "createdAt", "updatedAt"]
+    },
+    "SocialPost": {
+      "title": "SocialPost",
+      "description": "Social universe post with category, attachment metadata, reactions, and visibility.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "category": { "type": "string", "enum": ["General", "Tech", "Gaming", "Education", "Commerce", "Sports", "Entertainment"] },
+        "content": { "type": "string" },
+        "mediaLabel": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video", "file", "ai_share"] },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "visibility": { "type": "string", "enum": ["public", "private"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "authorName", "category", "content", "mediaType", "likesCount", "commentsCount", "visibility", "createdAt", "updatedAt"]
+    },
+    "UserStore": {
+      "title": "UserStore",
+      "description": "Multi-vendor Tiger Store owned by a user with full Bank Transfer details.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "storeName": { "type": "string" },
+        "description": { "type": "string" },
+        "bankName": { "type": "string" },
+        "accountHolder": { "type": "string" },
+        "iban": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "bankNotes": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["public", "private"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "ownerName", "storeName", "bankName", "accountHolder", "iban", "accountNumber", "visibility", "createdAt", "updatedAt"]
+    },
+    "StoreProduct": {
+      "title": "StoreProduct",
+      "description": "Product belonging to a Tiger Store with price, stock, and per-item deliveryFee.",
+      "type": "object",
+      "properties": {
+        "storeId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "storeName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "stock": { "type": "integer" },
+        "visibility": { "type": "string", "enum": ["public", "private"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "ownerId", "storeName", "title", "price", "deliveryFee", "stock", "visibility", "createdAt", "updatedAt"]
+    },
+    "StoreOrder": {
+      "title": "StoreOrder",
+      "description": "Order supporting COD and Online Bank Transfer with receipt verification and partial refund record.",
+      "type": "object",
+      "properties": {
+        "buyerId": { "type": "string" },
+        "buyerName": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "storeId": { "type": "string" },
+        "storeName": { "type": "string" },
+        "productId": { "type": "string" },
+        "productTitle": { "type": "string" },
+        "quantity": { "type": "integer" },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["COD", "BANK_TRANSFER"] },
+        "receiptFileName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "receipt_uploaded", "approved", "cancelled_refunded"] },
+        "refundedPartialAmount": { "type": "number" },
+        "refundNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["buyerId", "buyerName", "sellerId", "storeId", "storeName", "productId", "productTitle", "quantity", "subtotal", "deliveryFee", "totalAmount", "paymentMethod", "status", "refundedPartialAmount", "createdAt", "updatedAt"]
+    },
+    "ChatThread": {
+      "title": "ChatThread",
+      "description": "Encrypted 1-on-1 or Group chat thread with participant UIDs.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "groupChat": { "type": "boolean" },
+        "memberUids": { "type": "array" },
+        "lastMessagePreview": { "type": "string" },
+        "encryptedPayload": { "type": "string" },
+        "unreadCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "groupChat", "memberUids", "lastMessagePreview", "unreadCount", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "E2EE encrypted message inside a chat thread with denormalized memberUids.",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "cipherText": { "type": "string" },
+        "ivBase64": { "type": "string" },
+        "plainPreview": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["text", "image", "video", "document", "voice", "shared_post", "ai_reply"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "senderName", "memberUids", "cipherText", "ivBase64", "plainPreview", "messageType", "createdAt"]
+    },
+    "VaultItem": {
+      "title": "VaultItem",
+      "description": "User cloud drive file or PIN-protected private vault item.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "folder": { "type": "string" },
+        "mimeType": { "type": "string" },
+        "sizeBytes": { "type": "integer" },
+        "vaultLocked": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "folder", "mimeType", "sizeBytes", "vaultLocked", "createdAt", "updatedAt"]
+    },
+    "AiMessage": {
+      "title": "AiMessage",
+      "description": "TIGER AI Studio conversation turn stored per user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "senderRole": { "type": "string", "enum": ["user", "assistant"] },
+        "text": { "type": "string" },
+        "attachmentLabel": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "senderRole", "text", "createdAt"]
+    },
+    "GameScore": {
+      "title": "GameScore",
+      "description": "Mini-game high score and XP/Coins reward entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "gameId": { "type": "string" },
+        "score": { "type": "integer" },
+        "xpEarned": { "type": "integer" },
+        "coinsEarned": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "playerName", "gameId", "score", "xpEarned", "coinsEarned", "createdAt"]
+    },
+    "ModerationReport": {
+      "title": "ModerationReport",
+      "description": "User-submitted moderation report reviewed by admins.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["post", "store", "user", "message"] },
+        "targetId": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "targetType", "targetId", "reason", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Owner-isolated user profile, AI quota, avatar config, and subscription tier."
+    },
+    "/users/{userId}/vaultItems/{itemId}": {
+      "schema": { "$ref": "#/entities/VaultItem" },
+      "description": "User Cloud Drive and Private Vault files."
+    },
+    "/users/{userId}/aiMessages/{messageId}": {
+      "schema": { "$ref": "#/entities/AiMessage" },
+      "description": "User TIGER AI Studio messages."
+    },
+    "/users/{userId}/gameScores/{scoreId}": {
+      "schema": { "$ref": "#/entities/GameScore" },
+      "description": "User mini-game scores and earned XP/Coins."
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/SocialPost" },
+      "description": "Social universe posts queried by visibility or userId."
+    },
+    "/stores/{storeId}": {
+      "schema": { "$ref": "#/entities/UserStore" },
+      "description": "User-owned stores with Bank Transfer details."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/StoreProduct" },
+      "description": "Store products with price, stock, and deliveryFee."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/StoreOrder" },
+      "description": "Buyer/seller isolated COD and Bank Transfer orders with receipt and refund records."
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/ChatThread" },
+      "description": "Participant-isolated encrypted chat threads."
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Encrypted messages with denormalized memberUids."
+    },
+    "/moderationReports/{reportId}": {
+      "schema": { "$ref": "#/entities/ModerationReport" },
+      "description": "Moderation reports visible to reporter and admins."
+    }
+  }
+}

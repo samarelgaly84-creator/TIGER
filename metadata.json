@@ -1,0 +1,6 @@
+{
+  "name": "Tiger Connect",
+  "description": "Bilingual Arabic/English super-app combining social feed, stories, reels, live streaming, encrypted messaging & calls, TIGER AI Studio, multi-vendor store with bank transfer & receipts, Bitmoji Avatar Studio, 9 mini-games, cloud drive & private vault, live map, and premium plans.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
